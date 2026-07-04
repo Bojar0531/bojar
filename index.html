@@ -25,213 +25,6 @@
       --color-border: #E4E4E7;
     }
 
-    /* ============================================
-       INTRO OVERLAY
-       ============================================ */
-    #intro-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: #0a0a0c;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      transition: opacity 1.2s ease, visibility 1.2s ease;
-    }
-    #intro-overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Wind canvas */
-    #wind-canvas {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-    }
-
-    /* Character container */
-    .intro-character {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: characterFloat 2s ease-out;
-    }
-
-    .intro-character img {
-      display: block;
-      max-height: 70vh;
-      max-width: 90vw;
-      object-fit: contain;
-      filter: brightness(0.85);
-      transition: filter 1.5s ease;
-    }
-
-    .intro-character img.eyes-open {
-      filter: brightness(1);
-    }
-
-    /* Eye overlays — "closed eyelids" */
-    .eyelid {
-      position: absolute;
-      background: #0a0a0c;
-      border-radius: 50% / 60%;
-      z-index: 5;
-      transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1),
-                  opacity 1.5s ease;
-    }
-    .eyelid.left {
-      top: 31%;
-      left: 38%;
-      width: 12%;
-      height: 5%;
-    }
-    .eyelid.right {
-      top: 31%;
-      left: 52%;
-      width: 12%;
-      height: 5%;
-    }
-    .eyelid.open {
-      transform: scaleY(0.05);
-      opacity: 0;
-    }
-
-    /* Flying pages container */
-    .flying-pages {
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-    }
-
-    .page-fragment {
-      position: absolute;
-      background: linear-gradient(135deg, #f5f0e8 0%, #e8dfd0 40%, #ddd6c8 100%);
-      border-radius: 1px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(255,255,255,0.3);
-      animation: pageFly var(--duration) var(--delay) linear forwards;
-      opacity: 0;
-    }
-    .page-fragment::after {
-      content: '';
-      position: absolute;
-      inset: 3px;
-      border: 0.5px solid rgba(180, 170, 155, 0.4);
-      border-radius: 0.5px;
-    }
-
-    @keyframes pageFly {
-      0% {
-        opacity: 0;
-        transform: translate(0, 0) rotate(0deg) scale(0.3);
-      }
-      10% {
-        opacity: 0.85;
-      }
-      80% {
-        opacity: 0.6;
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--fly-x), var(--fly-y)) 
-                   rotate(var(--fly-rotate)) 
-                   scale(var(--fly-scale));
-      }
-    }
-
-    @keyframes characterFloat {
-      0% { transform: translateY(0) scale(0.92); opacity: 0; }
-      30% { opacity: 1; }
-      100% { transform: translateY(0) scale(1); opacity: 1; }
-    }
-
-    /* Wind gust lines */
-    .wind-gust {
-      position: absolute;
-      height: 1px;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255,255,255,0.15) 30%,
-        rgba(255,255,255,0.4) 50%,
-        rgba(255,255,255,0.15) 70%,
-        transparent 100%
-      );
-      animation: gustBlow var(--gust-duration) var(--gust-delay) ease-out forwards;
-      opacity: 0;
-      z-index: 2;
-    }
-
-    @keyframes gustBlow {
-      0% { 
-        opacity: 0; 
-        transform: translateX(-20%) scaleX(0.3); 
-      }
-      15% { 
-        opacity: 0.8; 
-      }
-      100% { 
-        opacity: 0; 
-        transform: translateX(120%) scaleX(1.5); 
-      }
-    }
-
-    /* Sparkle particles */
-    .sparkle {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: #fff;
-      border-radius: 50%;
-      animation: sparkleFloat var(--s-dur) var(--s-delay) ease-out forwards;
-      opacity: 0;
-      z-index: 2;
-      box-shadow: 0 0 6px 2px rgba(255,255,255,0.5);
-    }
-
-    @keyframes sparkleFloat {
-      0% { opacity: 0; transform: translate(0, 0); }
-      15% { opacity: 1; }
-      100% { 
-        opacity: 0; 
-        transform: translate(var(--s-x), var(--s-y)); 
-      }
-    }
-
-    /* Skip button */
-    .skip-intro {
-      position: absolute;
-      bottom: 32px;
-      right: 32px;
-      z-index: 10;
-      background: none;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: rgba(255,255,255,0.6);
-      padding: 8px 20px;
-      font-size: 13px;
-      font-family: 'Noto Sans SC', sans-serif;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .skip-intro:hover {
-      border-color: rgba(255,255,255,0.6);
-      color: rgba(255,255,255,0.9);
-    }
-
-    /* ============================================
-       MAIN PAGE (hidden during intro)
-       ============================================ */
-    #main-page {
-      opacity: 0;
-      transition: opacity 0.8s ease 0.5s;
-    }
-    #main-page.visible {
-      opacity: 1;
-    }
-
     body {
       font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--color-bg);
@@ -324,6 +117,7 @@
       text-align: center;
       letter-spacing: 0.3em;
       margin-bottom: 48px;
+      text-transform: uppercase;
     }
     .essay-list {
       display: flex;
@@ -450,348 +244,123 @@
 
     /* --- Responsive --- */
     @media (max-width: 768px) {
-      .header-inner { padding: 16px 24px; }
-      .nav-links { gap: 20px; }
-      .hero { padding: 64px 24px 48px; }
-      .hero-title { font-size: 32px; }
-      .hero-desc { font-size: 15px; }
-      .essays { padding: 48px 24px; }
-      .essay-card { padding: 24px 20px; }
-      .essay-card .title { font-size: 18px; }
-      .categories { padding: 48px 24px; }
-      .subscribe { padding: 48px 24px; }
-      .subscribe-form { flex-direction: column; }
-      .footer { padding: 32px 24px; }
+      .header-inner {
+        padding: 16px 24px;
+      }
+      .nav-links {
+        gap: 20px;
+      }
+      .hero {
+        padding: 64px 24px 48px;
+      }
+      .hero-title {
+        font-size: 32px;
+      }
+      .hero-desc {
+        font-size: 15px;
+      }
+      .essays {
+        padding: 48px 24px;
+      }
+      .essay-card {
+        padding: 24px 20px;
+      }
+      .essay-card .title {
+        font-size: 18px;
+      }
+      .categories {
+        padding: 48px 24px;
+      }
+      .subscribe {
+        padding: 48px 24px;
+      }
+      .subscribe-form {
+        flex-direction: column;
+      }
+      .footer {
+        padding: 32px 24px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ==========================================
-       INTRO ANIMATION
-       ========================================== -->
-  <div id="intro-overlay">
-    <canvas id="wind-canvas"></canvas>
-
-    <!-- Character -->
-    <div class="intro-character" id="character">
-      <img src="avatar.jpeg" alt="泊节" id="char-img">
-      <!-- Closed eye overlays -->
-      <div class="eyelid left" id="eyelid-left"></div>
-      <div class="eyelid right" id="eyelid-right"></div>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">泊节</a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#essays">随笔</a></li>
+          <li><a href="#categories">分类</a></li>
+          <li><a href="#subscribe">订阅</a></li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
-    <!-- Flying page fragments -->
-    <div class="flying-pages" id="flying-pages"></div>
+  <div class="divider"></div>
 
-    <button class="skip-intro" onclick="skipIntro()">跳过动画 →</button>
-  </div>
+  <!-- Hero -->
+  <section class="hero">
+    <span class="hero-tag">垃圾站</span>
+    <h1 class="hero-title">看到这句话的变成修茂密</h1>
+    <p class="hero-desc">看完不骂我你是这个👍</p>
+  </section>
 
-  <!-- ==========================================
-       MAIN PAGE
-       ========================================== -->
-  <div id="main-page">
+  <div class="divider"></div>
 
-    <!-- Header -->
-    <header class="header">
-      <div class="header-inner">
-        <a href="/" class="logo">泊节</a>
-        <nav>
-          <ul class="nav-links">
-            <li><a href="#essays">随笔</a></li>
-            <li><a href="#categories">分类</a></li>
-            <li><a href="#subscribe">订阅</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+  <!-- Essays -->
+  <section class="essays" id="essays">
+    <div class="section-label">随笔</div>
+    <div class="essay-list">
+      <article class="essay-card">
+        <div class="date">2026.06.20</div>
+        <h2 class="title">关于「慢」的一些碎碎念</h2>
+        <p class="excerpt">最近开始刻意放慢节奏。不是拖延，而是给思考留白。这篇文章记录了几件小事：关掉手机的一个下午、重新拿起纸质书、以及和朋友的一通长电话。</p>
+        <div class="tags"><span class="tag">生活</span></div>
+      </article>
+      <article class="essay-card">
+        <div class="date">2026.06.12</div>
+        <h2 class="title">读完《重来》后的几点反思</h2>
+        <p class="excerpt">Rework 这本书我读了三遍，每次都有新体会。这次最触动我的观点是：少即是多，不是口号而是纪律。</p>
+        <div class="tags"><span class="tag">读书</span></div>
+      </article>
+      <article class="essay-card">
+        <div class="date">2026.05.28</div>
+        <h2 class="title">搬家手记：一个新的开始</h2>
+        <p class="excerpt">搬到一个陌生的城市已经两周了。从不适应到慢慢找到节奏，这个过程让我重新审视了什么是「家」的感觉。</p>
+        <div class="tags"><span class="tag">生活</span></div>
+      </article>
+    </div>
+  </section>
 
-    <div class="divider"></div>
+  <!-- Categories -->
+  <section class="categories" id="categories">
+    <div class="section-label">分类浏览</div>
+    <div class="category-grid">
+      <a href="#" class="category-chip">生活</a>
+      <a href="#" class="category-chip">读书</a>
+      <a href="#" class="category-chip">技术</a>
+      <a href="#" class="category-chip">随笔</a>
+      <a href="#" class="category-chip">设计</a>
+    </div>
+  </section>
 
-    <!-- Hero -->
-    <section class="hero">
-      <span class="hero-tag">垃圾站</span>
-      <h1 class="hero-title">看到这句话的变成修茂密</h1>
-      <p class="hero-desc">看完不骂我你是这个👍</p>
-    </section>
+  <!-- Subscribe -->
+  <section class="subscribe" id="subscribe">
+    <div class="section-label">保持联系</div>
+    <p class="subscribe-desc">不定期更新，不喜欢被打扰。<br>如果你愿意，可以留下邮箱，有新文章时我会给你发一封邮件。</p>
+    <form class="subscribe-form" onsubmit="event.preventDefault(); alert('感谢订阅！')">
+      <input type="email" class="subscribe-input" placeholder="your@email.com" required>
+      <button type="submit" class="subscribe-btn">订阅</button>
+    </form>
+  </section>
 
-    <div class="divider"></div>
-
-    <!-- Essays -->
-    <section class="essays" id="essays">
-      <div class="section-label">随笔</div>
-      <div class="essay-list">
-        <article class="essay-card">
-          <div class="date">2026.06.20</div>
-          <h2 class="title">关于「慢」的一些碎碎念</h2>
-          <p class="excerpt">最近开始刻意放慢节奏。不是拖延，而是给思考留白。这篇文章记录了几件小事：关掉手机的一个下午、重新拿起纸质书、以及和朋友的一通长电话。</p>
-          <div class="tags"><span class="tag">生活</span></div>
-        </article>
-        <article class="essay-card">
-          <div class="date">2026.06.12</div>
-          <h2 class="title">读完《重来》后的几点反思</h2>
-          <p class="excerpt">Rework 这本书我读了三遍，每次都有新体会。这次最触动我的观点是：少即是多，不是口号而是纪律。</p>
-          <div class="tags"><span class="tag">读书</span></div>
-        </article>
-        <article class="essay-card">
-          <div class="date">2026.05.28</div>
-          <h2 class="title">搬家手记：一个新的开始</h2>
-          <p class="excerpt">搬到一个陌生的城市已经两周了。从不适应到慢慢找到节奏，这个过程让我重新审视了什么是「家」的感觉。</p>
-          <div class="tags"><span class="tag">生活</span></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- Categories -->
-    <section class="categories" id="categories">
-      <div class="section-label">分类浏览</div>
-      <div class="category-grid">
-        <a href="#" class="category-chip">生活</a>
-        <a href="#" class="category-chip">读书</a>
-        <a href="#" class="category-chip">技术</a>
-        <a href="#" class="category-chip">随笔</a>
-        <a href="#" class="category-chip">设计</a>
-      </div>
-    </section>
-
-    <!-- Subscribe -->
-    <section class="subscribe" id="subscribe">
-      <div class="section-label">保持联系</div>
-      <p class="subscribe-desc">不定期更新，不喜欢被打扰。<br>如果你愿意，可以留下邮箱，有新文章时我会给你发一封邮件。</p>
-      <form class="subscribe-form" onsubmit="event.preventDefault(); alert('感谢订阅！')">
-        <input type="email" class="subscribe-input" placeholder="your@email.com" required>
-        <button type="submit" class="subscribe-btn">订阅</button>
-      </form>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <span class="footer-text">© 2026 Bojar</span>
-    </footer>
-
-  </div>
-
-  <script>
-  (function() {
-
-    const overlay = document.getElementById('intro-overlay');
-    const mainPage = document.getElementById('main-page');
-    const charImg = document.getElementById('char-img');
-    const eyelidL = document.getElementById('eyelid-left');
-    const eyelidR = document.getElementById('eyelid-right');
-    const pagesContainer = document.getElementById('flying-pages');
-    const canvas = document.getElementById('wind-canvas');
-    const ctx = canvas.getContext('2d');
-
-    let animationRunning = true;
-    let windParticles = [];
-    let windGustLines = [];
-
-    // Resize canvas
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Wind particle class
-    class WindParticle {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * canvas.width * 0.3;
-        this.y = Math.random() * canvas.height;
-        this.length = 20 + Math.random() * 80;
-        this.speed = 3 + Math.random() * 10;
-        this.opacity = 0.05 + Math.random() * 0.2;
-        this.thickness = 0.5 + Math.random() * 1.5;
-      }
-      update() {
-        this.x += this.speed;
-        if (this.x > canvas.width + 100) this.reset();
-      }
-      draw(ctx) {
-        ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(this.x + this.length, this.y + (Math.random() - 0.5) * 4);
-        ctx.strokeStyle = `rgba(255,255,255,${this.opacity})`;
-        ctx.lineWidth = this.thickness;
-        ctx.stroke();
-      }
-    }
-
-    // Create wind particles
-    for (let i = 0; i < 60; i++) {
-      windParticles.push(new WindParticle());
-    }
-
-    // Create page fragments
-    function createPageFragments() {
-      const count = 25;
-      for (let i = 0; i < count; i++) {
-        const frag = document.createElement('div');
-        frag.className = 'page-fragment';
-        const size = 20 + Math.random() * 55;
-        frag.style.width = size + 'px';
-        frag.style.height = size * (0.6 + Math.random() * 0.8) + 'px';
-
-        // Start near center
-        const startX = 35 + Math.random() * 30;
-        const startY = 20 + Math.random() * 60;
-        frag.style.left = startX + '%';
-        frag.style.top = startY + '%';
-
-        // Fly direction
-        frag.style.setProperty('--fly-x', (80 + Math.random() * 120) + '%');
-        frag.style.setProperty('--fly-y', (-60 + Math.random() * 30) + '%');
-        frag.style.setProperty('--fly-rotate', (Math.random() * 720 - 360) + 'deg');
-        frag.style.setProperty('--fly-scale', (0.3 + Math.random() * 0.5));
-        frag.style.setProperty('--duration', (1.5 + Math.random() * 2) + 's');
-        frag.style.setProperty('--delay', Math.random() * 0.6 + 's');
-
-        pagesContainer.appendChild(frag);
-      }
-    }
-
-    // Create wind gust lines
-    function addWindGust() {
-      const gust = document.createElement('div');
-      gust.className = 'wind-gust';
-      gust.style.top = (10 + Math.random() * 80) + '%';
-      gust.style.width = (80 + Math.random() * 150) + 'px';
-      gust.style.left = (-Math.random() * 30) + '%';
-      gust.style.setProperty('--gust-duration', (0.8 + Math.random() * 1.2) + 's');
-      gust.style.setProperty('--gust-delay', '0s');
-      overlay.appendChild(gust);
-
-      setTimeout(() => gust.remove(), 2000);
-    }
-
-    // Create sparkles
-    function addSparkle(x, y) {
-      const s = document.createElement('div');
-      s.className = 'sparkle';
-      s.style.left = x + '%';
-      s.style.top = y + '%';
-      s.style.setProperty('--s-x', (-20 + Math.random() * 40) + '%');
-      s.style.setProperty('--s-y', (-30 + Math.random() * 10) + '%');
-      s.style.setProperty('--s-dur', (0.8 + Math.random() * 1.2) + 's');
-      s.style.setProperty('--s-delay', '0s');
-      overlay.appendChild(s);
-      setTimeout(() => s.remove(), 2000);
-    }
-
-    // ============ ANIMATION SEQUENCE ============
-
-    // Phase 2: Wind starts
-    function phaseWindStart() {
-      // Start wind gusts
-      const gustInterval = setInterval(() => {
-        if (!animationRunning) { clearInterval(gustInterval); return; }
-        addWindGust();
-      }, 250);
-
-      // Sparkles near character
-      const sparkleInterval = setInterval(() => {
-        if (!animationRunning) { clearInterval(sparkleInterval); return; }
-        addSparkle(35 + Math.random() * 30, 30 + Math.random() * 40);
-      }, 150);
-
-      // Stop gusts after phase
-      setTimeout(() => {
-        clearInterval(gustInterval);
-        clearInterval(sparkleInterval);
-      }, 3500);
-    }
-
-    // Phase 3: Eyes open
-    function phaseEyesOpen() {
-      eyelidL.classList.add('open');
-      eyelidR.classList.add('open');
-      charImg.classList.add('eyes-open');
-    }
-
-    // Phase 4: Transition to main
-    function phaseTransition() {
-      // More intense wind
-      for (let i = 0; i < 15; i++) {
-        setTimeout(() => addWindGust(), i * 80);
-        setTimeout(() => addSparkle(35 + Math.random() * 30, 30 + Math.random() * 40), i * 60);
-      }
-    }
-
-    // End intro
-    function endIntro() {
-      animationRunning = false;
-      overlay.classList.add('hidden');
-      mainPage.classList.add('visible');
-
-      // Remove overlay after transition
-      setTimeout(() => {
-        overlay.style.display = 'none';
-      }, 1300);
-    }
-
-    // ============ CANVAS ANIMATION LOOP ============
-    function animateCanvas() {
-      if (!animationRunning && canvas.style.display === 'none') return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      windParticles.forEach(p => {
-        p.update();
-        p.draw(ctx);
-      });
-
-      if (animationRunning) {
-        requestAnimationFrame(animateCanvas);
-      }
-    }
-
-    // ============ START SEQUENCE ============
-    function startSequence() {
-      // Phase 1: Character appears (0-0.6s) — already visible via CSS
-
-      // Phase 2: Wind starts (0.8s)
-      setTimeout(phaseWindStart, 800);
-
-      // Create pages
-      setTimeout(createPageFragments, 1000);
-
-      // Phase 3: Eyes open (3s)
-      setTimeout(phaseEyesOpen, 3000);
-
-      // Phase 4: Intense wind before transition (4.5s)
-      setTimeout(phaseTransition, 4300);
-
-      // Phase 5: Fade to main (5.5s)
-      setTimeout(endIntro, 5500);
-    }
-
-    // Canvas loop
-    animateCanvas();
-
-    // Start on image load
-    if (charImg.complete) {
-      startSequence();
-    } else {
-      charImg.onload = startSequence;
-    }
-
-    // Skip
-    window.skipIntro = function() {
-      animationRunning = false;
-      eyelidL.classList.add('open');
-      eyelidR.classList.add('open');
-      charImg.classList.add('eyes-open');
-      overlay.classList.add('hidden');
-      mainPage.classList.add('visible');
-      setTimeout(() => { overlay.style.display = 'none'; }, 1000);
-    };
-
-  })();
-  </script>
+  <!-- Footer -->
+  <footer class="footer">
+    <span class="footer-text">© 2026 Bojar</span>
+  </footer>
 
 </body>
 </html>
