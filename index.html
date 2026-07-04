@@ -233,7 +233,7 @@
     }
     .contact-card .email-link {
       display: inline-block;
-      font-size: 17px;
+      font-size: 18px;
       color: var(--accent);
       text-decoration: none;
       padding: 14px 32px;
@@ -247,25 +247,24 @@
       color: #fff;
     }
     .contact-card .contact-hint {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 16px;
-    }
-    .contact-card input:focus,
-    .contact-card textarea:focus {
-      border-color: var(--accent);
-    }
-    .sent-notice {
-      background: #E8F5E9;
-      color: #2E7D32;
-      padding: 12px 20px;
-      border-radius: 10px;
       font-size: 14px;
-      margin-bottom: 24px;
-      text-align: center;
-      display: none;
+      color: var(--text-muted);
+      margin-top: 20px;
+      line-height: 1.8;
     }
-    .sent-notice.show { display: block; }
+    .contact-card .contact-note {
+      background: var(--bg-warm);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .contact-card .contact-note strong {
+      color: var(--accent);
+    }
 
     /* ===== Footer ===== */
     .footer {
@@ -412,27 +411,12 @@
   <span class="section-label">留下点什么</span>
   <p class="section-desc">想说什么都可以。留言、吐槽、推荐一本书、或者只是来打个招呼。</p>
   <div class="contact-card">
-    <div class="sent-notice" id="sent-notice">✅ 留言已发送！感谢你的来信～</div>
-    <form id="contact-form" action="https://formsubmit.co/wangty69@mail2.sysu.edu.cn" method="POST" style="max-width:420px; margin:0 auto; text-align:left;">
-      <input type="hidden" name="_subject" value="来自庇护所的留言">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="box">
-      <input type="hidden" name="_next" value="https://bojar0531.github.io/bojar/?sent=1">
-      <div style="margin-bottom:16px">
-        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px">你的名字（选填）</label>
-        <input type="text" name="name" placeholder="不必是真实姓名" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:'Noto Sans SC',sans-serif;background:var(--bg);outline:none;transition:border-color 0.2s">
-      </div>
-      <div style="margin-bottom:16px">
-        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px">你的邮箱（选填）</label>
-        <input type="email" name="email" placeholder="方便的话可以留一个" style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:'Noto Sans SC',sans-serif;background:var(--bg);outline:none;transition:border-color 0.2s">
-      </div>
-      <div style="margin-bottom:20px">
-        <label style="display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px">想说的话</label>
-        <textarea name="message" rows="4" placeholder="推荐一本书、吐槽一下、或者随便聊聊..." style="width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;font-size:15px;font-family:'Noto Sans SC',sans-serif;background:var(--bg);outline:none;resize:vertical;transition:border-color 0.2s"></textarea>
-      </div>
-      <button type="submit" style="width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:40px;font-size:15px;font-weight:500;font-family:'Noto Sans SC',sans-serif;cursor:pointer;transition:opacity 0.2s">📬 发送留言</button>
-    </form>
-    <p class="contact-hint" style="margin-top:14px;text-align:center;">留言会直接发送到 wangty69@mail2.sysu.edu.cn<br>第一次使用时 formsubmit 会发一封确认邮件到你邮箱，点击确认后即可正常接收。<br>（无需注册任何账号 🎉）</p>
+    <div class="contact-note">
+      <p>我正在写一些关于<strong>AI 时代下数字弱势群体保护</strong>的文章，以尽我一个法学生的绵薄之力。如果你对这个问题有想法——无论是一线见闻、法律分析、技术方案，还是你身边的故事——都欢迎通过下面的邮箱联系我。</p>
+      <p style="margin-top:10px"><strong>稿件一经采用，会有稿酬。</strong> 💰</p>
+    </div>
+    <a class="email-link" href="mailto:wangty69@mail2.sysu.edu.cn">📬 wangty69@mail2.sysu.edu.cn</a>
+    <p class="contact-hint">也欢迎任何形式的交流——推荐书、吐槽生活、或者单纯来打个招呼。</p>
   </div>
 </section>
 
@@ -466,14 +450,6 @@ window.addEventListener('load', () => {
       el.classList.add('visible');
     }
   });
-
-  // Show "sent" notice if redirected from form
-  if (window.location.search.includes('sent=1')) {
-    const notice = document.getElementById('sent-notice');
-    if (notice) notice.classList.add('show');
-    // Clean URL
-    window.history.replaceState({}, '', window.location.pathname);
-  }
 });
 </script>
 
