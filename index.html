@@ -3,364 +3,483 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>泊节 — 垃圾站</title>
+  <title>泊节的庇护所</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --color-bg: #FAFAFA;
-      --color-white: #FFFFFF;
-      --color-fg: #09090B;
-      --color-primary: #18181B;
-      --color-accent: #2563EB;
-      --color-muted: #E8ECF0;
-      --color-muted-fg: #64748B;
-      --color-border: #E4E4E7;
+      --bg: #FFF8F0;
+      --bg-card: #FFFFFF;
+      --bg-warm: #FDF2E4;
+      --text: #2D1B0E;
+      --text-muted: #8B7355;
+      --accent: #C6754D;
+      --accent-light: #E8B86D;
+      --accent-soft: #F5E6D3;
+      --border: #E8DDD0;
+      --shadow: rgba(139, 115, 85, 0.12);
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--color-bg);
-      color: var(--color-fg);
-      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.8;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* --- Header --- */
+    /* ===== Scroll Reveal ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      filter: blur(4px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  filter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ===== Header ===== */
     .header {
-      background: var(--color-white);
-      border-bottom: 1px solid rgba(228, 228, 231, 0.5);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
     .header-inner {
-      max-width: 1312px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 20px 64px;
+      padding: 18px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
     .logo {
+      font-family: 'Noto Serif SC', serif;
       font-size: 20px;
-      font-weight: 600;
-      color: var(--color-fg);
+      font-weight: 700;
+      color: var(--accent);
       text-decoration: none;
-      letter-spacing: -0.01em;
     }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
-      font-size: 15px;
-      font-weight: 400;
-      color: var(--color-muted-fg);
+      font-size: 14px;
+      color: var(--text-muted);
       text-decoration: none;
-      transition: color 0.15s ease;
+      transition: color 0.2s;
     }
-    .nav-links a:hover {
-      color: var(--color-fg);
-    }
+    .nav-links a:hover { color: var(--accent); }
 
-    /* --- Hero --- */
+    /* ===== Hero ===== */
     .hero {
-      background: var(--color-white);
-      padding: 120px 64px 80px;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 100px 32px 80px;
       text-align: center;
     }
     .hero-tag {
       display: inline-block;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      color: var(--color-accent);
-      margin-bottom: 24px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 28px;
     }
     .hero-title {
-      font-size: 48px;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 40px;
       font-weight: 700;
-      color: var(--color-fg);
-      line-height: 1.25;
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
     }
-    .hero-desc {
-      font-size: 17px;
-      font-weight: 400;
-      color: var(--color-muted-fg);
-      line-height: 1.65;
-      max-width: 560px;
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      max-width: 520px;
       margin: 0 auto;
     }
-    .divider {
-      height: 1px;
-      background: rgba(228, 228, 231, 0.3);
-    }
-
-    /* --- Essays Section --- */
-    .essays {
-      padding: 80px 64px;
-      max-width: 808px;
-      margin: 0 auto;
-    }
-    .section-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--color-muted-fg);
-      text-align: center;
-      letter-spacing: 0.3em;
-      margin-bottom: 48px;
-      text-transform: uppercase;
-    }
-    .essay-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .essay-card {
-      background: var(--color-white);
-      border: 1px solid rgba(228, 228, 231, 0.6);
-      padding: 32px 36px;
-    }
-    .essay-card .date {
-      font-size: 13px;
-      color: var(--color-muted-fg);
-      margin-bottom: 10px;
-    }
-    .essay-card .title {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--color-fg);
-      line-height: 1.45;
-      margin-bottom: 10px;
-    }
-    .essay-card .excerpt {
-      font-size: 15px;
-      color: var(--color-muted-fg);
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-    .essay-card .tags {
-      display: flex;
-      gap: 8px;
-    }
-    .tag {
-      display: inline-block;
-      padding: 4px 10px;
-      background: var(--color-muted);
-      font-size: 12px;
-      color: var(--color-muted-fg);
-    }
-
-    /* --- Categories --- */
-    .categories {
-      background: var(--color-white);
-      padding: 80px 64px;
-      text-align: center;
-    }
-    .category-grid {
+    .hero-dog {
+      margin-top: 36px;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      max-width: 680px;
-      margin: 0 auto;
     }
-    .category-chip {
-      padding: 10px 24px;
-      background: var(--color-muted);
+    .hero-dog svg { max-width: 280px; }
+
+    .section-divider {
+      max-width: 120px;
+      margin: 0 auto 60px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-light), transparent);
+      border-radius: 2px;
+    }
+
+    /* ===== Sections ===== */
+    .section {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 32px 80px;
+    }
+    .section-label {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+      position: relative;
+      display: inline-block;
+    }
+    .section-label::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-light);
+      border-radius: 2px;
+      opacity: 0.4;
+    }
+    .section-desc {
       font-size: 15px;
-      color: var(--color-primary);
+      color: var(--text-muted);
+      margin-bottom: 40px;
+      line-height: 1.7;
+    }
+
+    /* ===== About card ===== */
+    .about-card {
+      background: var(--bg-warm);
+      border-radius: 16px;
+      padding: 36px 40px;
+      border: 1px solid var(--border);
+    }
+    .about-card p {
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    /* ===== Essay Cards ===== */
+    .essay-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 28px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .essay-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(139, 115, 85, 0.18);
+    }
+    .essay-card .essay-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .essay-card h2 {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .essay-card p {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+    .essay-card p:last-child { margin-bottom: 0; }
+    .essay-card .essay-divider {
+      width: 40px;
+      height: 2px;
+      background: var(--accent-light);
+      border-radius: 1px;
+      margin: 24px 0 20px;
+    }
+
+    /* ===== Contact ===== */
+    .contact-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px var(--shadow);
+      text-align: center;
+    }
+    .contact-card .email-link {
+      display: inline-block;
+      font-size: 17px;
+      color: var(--accent);
       text-decoration: none;
-      transition: background 0.15s ease;
-    }
-    .category-chip:hover {
-      background: #dde1e6;
-    }
-
-    /* --- Subscribe --- */
-    .subscribe {
-      padding: 80px 64px;
-      text-align: center;
-    }
-    .subscribe-desc {
-      font-size: 15px;
-      color: var(--color-muted-fg);
-      line-height: 1.6;
-      max-width: 480px;
-      margin: 0 auto 24px;
-    }
-    .subscribe-form {
-      display: flex;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .subscribe-input {
-      flex: 1;
-      padding: 14px 16px;
-      border: 1px solid var(--color-border);
-      background: var(--color-white);
-      font-size: 15px;
-      font-family: 'Noto Sans SC', sans-serif;
-      color: var(--color-fg);
-      outline: none;
-    }
-    .subscribe-input::placeholder {
-      color: var(--color-muted-fg);
-    }
-    .subscribe-btn {
-      padding: 14px 24px;
-      background: var(--color-primary);
-      color: var(--color-white);
-      border: none;
-      font-size: 15px;
+      padding: 14px 32px;
+      border: 2px solid var(--accent);
+      border-radius: 40px;
+      transition: all 0.25s;
       font-weight: 500;
-      font-family: 'Noto Sans SC', sans-serif;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s ease;
     }
-    .subscribe-btn:hover {
-      background: #2d2d32;
+    .contact-card .email-link:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+    .contact-card .contact-hint {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 16px;
     }
 
-    /* --- Footer --- */
+    /* ===== Footer ===== */
     .footer {
-      background: var(--color-primary);
-      padding: 40px 64px;
       text-align: center;
+      padding: 48px 32px;
+      border-top: 1px solid var(--border);
     }
     .footer-text {
       font-size: 13px;
-      color: var(--color-muted-fg);
+      color: var(--text-muted);
+    }
+    .footer-quote {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 14px;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 8px;
+      opacity: 0.7;
     }
 
-    /* --- Responsive --- */
+    /* ===== Responsive ===== */
     @media (max-width: 768px) {
-      .header-inner {
-        padding: 16px 24px;
-      }
-      .nav-links {
-        gap: 20px;
-      }
-      .hero {
-        padding: 64px 24px 48px;
-      }
-      .hero-title {
-        font-size: 32px;
-      }
-      .hero-desc {
-        font-size: 15px;
-      }
-      .essays {
-        padding: 48px 24px;
-      }
-      .essay-card {
-        padding: 24px 20px;
-      }
-      .essay-card .title {
-        font-size: 18px;
-      }
-      .categories {
-        padding: 48px 24px;
-      }
-      .subscribe {
-        padding: 48px 24px;
-      }
-      .subscribe-form {
-        flex-direction: column;
-      }
-      .footer {
-        padding: 32px 24px;
-      }
+      .header-inner { padding: 14px 20px; }
+      .nav-links { gap: 16px; }
+      .hero { padding: 60px 20px 50px; }
+      .hero-title { font-size: 28px; }
+      .hero-subtitle { font-size: 15px; }
+      .section { padding: 0 20px 60px; }
+      .essay-card { padding: 28px 24px; }
+      .essay-card h2 { font-size: 19px; }
+      .essay-card p { font-size: 14px; }
+      .about-card { padding: 24px; }
+      .contact-card { padding: 28px 24px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <a href="/" class="logo">泊节</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="#essays">随笔</a></li>
-          <li><a href="#categories">分类</a></li>
-          <li><a href="#subscribe">订阅</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+<!-- ===== Header ===== -->
+<header class="header reveal">
+  <div class="header-inner">
+    <a href="/" class="logo">庇护所</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#about">关于</a></li>
+        <li><a href="#writings">文字</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-  <div class="divider"></div>
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <span class="hero-tag reveal reveal-delay-1">庇护所</span>
+  <h1 class="hero-title reveal reveal-delay-1">泊节的庇护所</h1>
+  <p class="hero-subtitle reveal reveal-delay-2">看到这句话的变成赶不上AI时代也只用晒太阳的修勾</p>
+  <div class="hero-dog reveal reveal-delay-3">
+    <svg viewBox="0 0 260 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Sun rays -->
+      <g opacity="0.15">
+        <line x1="30" y1="5" x2="55" y2="30" stroke="#E8A840" stroke-width="3" stroke-linecap="round"/>
+        <line x1="45" y1="0" x2="60" y2="10" stroke="#E8A840" stroke-width="3" stroke-linecap="round"/>
+        <line x1="15" y1="20" x2="30" y2="30" stroke="#E8A840" stroke-width="3" stroke-linecap="round"/>
+        <line x1="20" y1="40" x2="25" y2="40" stroke="#E8A840" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- Sun -->
+      <circle cx="40" cy="28" r="14" fill="#F5C842" opacity="0.6"/>
+      <circle cx="40" cy="28" r="9" fill="#F5C842" opacity="0.85"/>
+      <!-- Ground -->
+      <ellipse cx="130" cy="170" rx="110" ry="18" fill="#F5E6D3"/>
+      <!-- Dog body -->
+      <ellipse cx="130" cy="148" rx="62" ry="24" fill="#C4956A"/>
+      <ellipse cx="130" cy="145" rx="55" ry="20" fill="#D4A574"/>
+      <!-- Dog belly highlight -->
+      <ellipse cx="130" cy="150" rx="35" ry="14" fill="#E8C9A8" opacity="0.6"/>
+      <!-- Dog head -->
+      <ellipse cx="185" cy="132" rx="26" ry="22" fill="#D4A574"/>
+      <!-- Dog ear -->
+      <ellipse cx="200" cy="115" rx="12" ry="16" fill="#C4956A" transform="rotate(20, 200, 115)"/>
+      <!-- Dog face details -->
+      <ellipse cx="178" cy="128" rx="6" ry="5" fill="#8B5E3C"/>
+      <ellipse cx="192" cy="128" rx="6" ry="5" fill="#8B5E3C"/>
+      <!-- Eyes (closed happy) -->
+      <path d="M173 126 Q175.5 122 178 126" stroke="#2D1B0E" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M187 126 Q189.5 122 192 126" stroke="#2D1B0E" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Nose -->
+      <ellipse cx="185" cy="133" rx="4" ry="3" fill="#5C3A1E"/>
+      <!-- Smile -->
+      <path d="M182 137 Q185 141 188 137" stroke="#5C3A1E" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- Tongue -->
+      <path d="M184 138 Q185 144 186 138" fill="#F0A0A0" stroke="#E88888" stroke-width="0.8"/>
+      <!-- Tail -->
+      <path d="M70 138 Q52 120 48 108" stroke="#C4956A" stroke-width="8" fill="none" stroke-linecap="round"/>
+      <!-- Front legs -->
+      <ellipse cx="155" cy="164" rx="8" ry="6" fill="#C4956A"/>
+      <ellipse cx="170" cy="164" rx="8" ry="5" fill="#C4956A"/>
+      <!-- Back legs -->
+      <ellipse cx="95" cy="164" rx="8" ry="6" fill="#C4956A"/>
+      <ellipse cx="108" cy="165" rx="7" ry="5" fill="#C4956A"/>
+      <!-- Warm glowing spots -->
+      <circle cx="170" cy="140" r="3" fill="#F5C842" opacity="0.3"/>
+      <circle cx="100" cy="138" r="2" fill="#F5C842" opacity="0.25"/>
+      <circle cx="140" cy="130" r="2.5" fill="#F5C842" opacity="0.2"/>
+    </svg>
+  </div>
+</section>
 
-  <!-- Hero -->
-  <section class="hero">
-    <span class="hero-tag">垃圾站</span>
-    <h1 class="hero-title">看到这句话的变成修茂密</h1>
-    <p class="hero-desc">看完不骂我你是这个👍</p>
-  </section>
+<div class="section-divider reveal"></div>
 
-  <div class="divider"></div>
+<!-- ===== 关于泊节 ===== -->
+<section class="section reveal" id="about">
+  <div class="about-card">
+    <span class="section-label">关于泊节</span>
+    <p style="margin-top:20px">这个名字取自「淡泊节欲」——取首尾的「泊」与「节」。既然你已经点进了这个网页，那就一起忘掉各种 KPI、deadline、知识焦虑和 "再不学就晚了" 的恐惧吧。这里没有什么必须完成的阅读清单，也没有要你点赞关注的按钮。只有晒着太阳的修勾，和几段不那么着急的文字。</p>
+  </div>
+</section>
 
-  <!-- Essays -->
-  <section class="essays" id="essays">
-    <div class="section-label">随笔</div>
-    <div class="essay-list">
-      <article class="essay-card">
-        <div class="date">2026.06.20</div>
-        <h2 class="title">关于「慢」的一些碎碎念</h2>
-        <p class="excerpt">最近开始刻意放慢节奏。不是拖延，而是给思考留白。这篇文章记录了几件小事：关掉手机的一个下午、重新拿起纸质书、以及和朋友的一通长电话。</p>
-        <div class="tags"><span class="tag">生活</span></div>
-      </article>
-      <article class="essay-card">
-        <div class="date">2026.06.12</div>
-        <h2 class="title">读完《重来》后的几点反思</h2>
-        <p class="excerpt">Rework 这本书我读了三遍，每次都有新体会。这次最触动我的观点是：少即是多，不是口号而是纪律。</p>
-        <div class="tags"><span class="tag">读书</span></div>
-      </article>
-      <article class="essay-card">
-        <div class="date">2026.05.28</div>
-        <h2 class="title">搬家手记：一个新的开始</h2>
-        <p class="excerpt">搬到一个陌生的城市已经两周了。从不适应到慢慢找到节奏，这个过程让我重新审视了什么是「家」的感觉。</p>
-        <div class="tags"><span class="tag">生活</span></div>
-      </article>
-    </div>
-  </section>
+<div class="section-divider reveal"></div>
 
-  <!-- Categories -->
-  <section class="categories" id="categories">
-    <div class="section-label">分类浏览</div>
-    <div class="category-grid">
-      <a href="#" class="category-chip">生活</a>
-      <a href="#" class="category-chip">读书</a>
-      <a href="#" class="category-chip">技术</a>
-      <a href="#" class="category-chip">随笔</a>
-      <a href="#" class="category-chip">设计</a>
-    </div>
-  </section>
+<!-- ===== 文字 ===== -->
+<section class="section reveal" id="writings">
+  <span class="section-label">晒太阳时分</span>
+  <p class="section-desc">一些看过的、想过的、还在坚持的。不赶时间，慢慢读。</p>
 
-  <!-- Subscribe -->
-  <section class="subscribe" id="subscribe">
-    <div class="section-label">保持联系</div>
-    <p class="subscribe-desc">不定期更新，不喜欢被打扰。<br>如果你愿意，可以留下邮箱，有新文章时我会给你发一封邮件。</p>
-    <form class="subscribe-form" onsubmit="event.preventDefault(); alert('感谢订阅！')">
-      <input type="email" class="subscribe-input" placeholder="your@email.com" required>
-      <button type="submit" class="subscribe-btn">订阅</button>
-    </form>
-  </section>
+  <!-- Re:Zero -->
+  <article class="essay-card reveal reveal-delay-1">
+    <div class="essay-icon">🔄</div>
+    <h2>当我终于看懂了菜月昴</h2>
+    <p>小时候看《Re:从零开始的异世界生活》，只觉得男主角菜月昴好惨。死了又死，爬起又跌倒，像个永远在挨打的不倒翁。他不够帅，不够强，没有龙傲天的光环，唯一的能力是死后回溯——说白了就是带着记忆一次次体验死亡，然后带着那些无人知道的伤痕继续往前走。</p>
+    <p>那时候我觉得他很弱。现在回头看，一个十八岁的少年，在完全陌生的世界里，唯一的倚仗是"死了可以重来"——这不是什么外挂，这是诅咒。他每一次死亡都是真实的痛苦，每一次重置都意味着只有他自己记得发生过什么。没人理解他为什么突然崩溃、突然沉默、突然在和平的场景里流眼泪。而他依然选择站起来，依然选择去救艾米莉亚，去保护雷姆，去面对那些他本可以转身逃开的一切。</p>
+    <p>长到被生活锤过几轮之后才懂：重复失败而不崩溃、不被理解仍然坚持、在没有任何人知道的付出里保持温柔的善意——这比任何 "一刀秒杀" 的能力都难得多。菜月昴不是一个弱者，他只是太像一个普通人了。而我们大多数人，可能连他那份 "再试一次" 的勇气都没有。所以现在如果有人问我最喜欢的异世界番，我会毫不犹豫地说 Re:Zero。不是因为打斗或设定，而是因为这个男孩让我觉得——咬咬牙，好像我也可以再多撑一轮。</p>
+  </article>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <span class="footer-text">© 2026 Bojar</span>
-  </footer>
+  <!-- Agatha Christie -->
+  <article class="essay-card reveal reveal-delay-2">
+    <div class="essay-icon">🔍</div>
+    <h2>阿加莎·克里斯蒂：推理小说的天花板没有之一</h2>
+    <p>我读了阿加莎·克里斯蒂的十几本小说之后，得出一个不太谦虚的结论：在推理小说的领域，至今没有人可以明确地说"我超过了阿加莎"。她不是被神化的，她是真的强。</p>
+    <p>《无人生还》里，十个人按照童谣的顺序一个个死去，凶手就藏在死者之中——这个设定在今天看来可能已经不新鲜，但请记住，是阿加莎发明了它。后来的暴风雪山庄模式、孤岛模式，几乎都多多少少欠她一笔。《东方快车谋杀案》的结局更是犯罪小说史上最大胆的一次道德拷问：当正义无法通过法律实现，受害者们是否可以成为审判者？</p>
+    <p>但我个人最喜欢的还是《罗杰疑案》。叙事诡计用得如此精妙，以至于读到最后一章的时候我整个人从椅子上弹了起来——不是夸张，是物理意义上的弹了起来。那种被作者玩弄于股掌之间却心服口服的感觉，是阅读中最稀缺的快乐。</p>
+    <p>阿加莎的厉害之处不在于"让人猜不到"，而在于"让人猜不到但回头看每一处伏笔都明明白白"。她不靠隐瞒线索来制造反转，线索都在你眼前，只是你选择性地没看见。这种对读者心理的精准拿捏，至今没有人能稳定复现。如果你只打算读一本推理小说，随便挑一本阿加莎的就行。如果你打算读十本——那就十本全是她的。</p>
+  </article>
+
+  <!-- Dostoevsky -->
+  <article class="essay-card reveal reveal-delay-3">
+    <div class="essay-icon">📖</div>
+    <h2>陀思妥耶夫斯基：在不舒服中感到被理解</h2>
+    <p>读陀思妥耶夫斯基从来不是一种享受，但偏偏会上瘾。他的小说像是一面镜子——不太干净的那种，镜面上有划痕和雾气，但你就是能从里面看到自己最不想承认的那部分。</p>
+
+    <div class="essay-divider"></div>
+
+    <p><strong>《地下室手记》</strong>是我入门的第一本。一个四十岁的退休公务员，住在地下室里，对着虚空自言自语了一整本书。前半部通篇哲学化的牢骚，后半部追忆年轻时干过的蠢事。这个"地下人"同时渴望被爱又厌恶被爱、想融入社会又看不起所有人、极度自卑又以自卑为傲。读到一半的时候我突然意识到——我在某些失眠的夜晚，脑子里循环的内心戏，和这个十九世纪俄国公务员一模一样。</p>
+
+    <p><strong>《白夜》</strong>是陀氏少有的温柔之作。一个幻想家在彼得堡的白夜里遇见了一个姑娘，四个夜晚，他倾尽所有的浪漫和真诚，以为终于等到了属于自己的爱情。然后那个姑娘的旧情人回来了。幻想家退场，什么都没说，只在告别时祝福她幸福。这个故事短得像一场梦，但那种 "明明什么都没做错但就是没能被选择" 的怅然，会在读完之后的很多个傍晚突然浮上来。</p>
+
+    <p><strong>《罪与罚》</strong>就不一样了，它是一场漫长的拷问。拉斯柯尔尼科夫杀了一个放高利贷的老太婆，不是因为缺钱，而是为了证明自己属于"可以跨越道德边界的非凡人"。然后他在发烧、噩梦和自我谴责中度过了整整六七百页。陀氏不是在写犯罪小说，他是在做一个实验：一个人要承受多少心理折磨，才能为一次"理论上的合理行为"买单？答案是他承受不了。索尼娅的出场是全书最温柔的光——她贫穷、卑微、被人看不起，但她用最简单的信仰把拉斯柯尔尼科夫从深渊里拽了回来。</p>
+
+    <p><strong>《涅朵奇卡》</strong>是陀氏未完成的小说，却可能是他最有成长感的一部。一个女孩在荒诞的家庭中长大，经历了暴虐的继父、寄人篱下的童年、以及一个女人之间微妙而深刻的情感连接。这本书没有罪案也没有哲学辩论，只有一个人如何在破碎中一点一点拼起自己。读到结尾的时候，你会特别遗憾陀氏没有写完它——但又觉得停在那个位置，好像也挺好的。就像涅朵奇卡从来不需要一个完整的结局来证明她的完整。</p>
+
+    <p>总结一句不太负责任的话：陀思妥耶夫斯基不会让你开心，但他会让你觉得——原来不止我一个人这么拧巴。而这，可能比开心更重要。</p>
+  </article>
+
+  <!-- German -->
+  <article class="essay-card reveal reveal-delay-4">
+    <div class="essay-icon">🇩🇪</div>
+    <h2>两个月德语之后，我决定继续下去</h2>
+    <p>两个月前开始学德语，没什么特别的理由。不是因为要去留学，不是因为有德国客户，也不是因为听了什么"多学一门语言多一份竞争力"的鸡汤。纯粹是有一天看了一部德语电影，觉得这种听起来像猫吐毛球一样的语言莫名有种严谨的性感，于是打开了 Duolingo。</p>
+    <p>然后就被德语的名词性别教育了。Der、Die、Das——太阳是"她"（die Sonne），月亮是"他"（der Mond），小女孩是"它"（das Mädchen）。我至今不理解为什么一个小女孩在语法上是中性的，但德语不管我的不理解。它只是冷酷地要求我记住每一个名词的性别，就像生活要求我在不知道未来会怎样的情况下照常起床上班一样。</p>
+    <p>身边有些朋友委婉地问我："AI 翻译都这么强了，学德语还有什么意义？"这个问题我想了很久。确实，现在打开任何一个翻译软件，对着屏幕说中文，一秒出德语。我的发音再练习十年可能都没有 AI 准确。但当我第一次用德语读完一首短诗，不是翻译后的中文版本，而是那几行用陌生的词汇和语法组成的原句——那种感觉就像在一个全是游客的景点里，突然找到了一扇只有本地人才知道的小门。</p>
+    <p>可能两年后我的德语水平依然只够在慕尼黑点一杯啤酒。可能十年后 AI 已经让所有语言障碍形同虚设。但这两个月每天十五分钟的 der-die-das，让我在一种"不知道有没有用但就是想做"的任性里，感到了久违的自由。这就够了。</p>
+  </article>
+
+  <!-- AI Era + Law -->
+  <article class="essay-card reveal reveal-delay-4">
+    <div class="essay-icon">⚖️</div>
+    <h2>AI 时代：总有人掉队，那至少别让他们一个人</h2>
+    <p>每一次浪潮都会有人乘风而起，也一定有人被拍到水下。AI 时代也不例外，只不过这次浪来得更大、更急、更沉默——没有硝烟，没有裁员通知书上盖的公章，可能只是有一天你打开招聘软件，发现自己能投的岗位少了一半。</p>
+    <p>我大学学的是法律。在所有人都在讨论"AI 会取代律师吗"的时候，我更关心的是那些根本不会问出这个问题的人。他们可能是小县城里被合同坑了不知道怎么维权的老人，可能是第一次出来打工就被无良中介骗了押金的年轻人，也可能只是在某个深夜收到催收电话被吓得发抖的普通人。他们不需要 ChatGPT 帮他们写法律意见书，他们需要一个能听懂他们说话的人。</p>
+    <p>法学教育给我最大的礼物，不是那些法条和判例，而是一种思维方式：当权力不对等的时候，规则应该站在弱者那一边。AI 时代的技术红利分配注定是不均匀的，有人靠 prompt engineering 月入过万，有人连手机里的 AI 功能在哪打开都不知道。这种裂痕不会自己愈合，它需要有人去填。</p>
+    <p>我不觉得自己是什么改变世界的人。但如果能用自己的专业知识，让几个在 AI 浪潮中差点被淹到的人喘上一口气，那学法律的这些年就没有白费。可能以后回头看，我做不了什么惊天动地的大事。但只要有人因为我的帮助少掉了一次坑，那就值了。</p>
+  </article>
+
+</section>
+
+<div class="section-divider reveal"></div>
+
+<!-- ===== 联系我 ===== -->
+<section class="section reveal" id="contact">
+  <span class="section-label">留下点什么</span>
+  <p class="section-desc">想说什么都可以。留言、吐槽、推荐一本书、或者只是来打个招呼。</p>
+  <div class="contact-card">
+    <a class="email-link" href="mailto:wangty69@mail2.sysu.edu.cn?subject=来自庇护所的留言">📬 给我写邮件</a>
+    <p class="contact-hint">点击按钮会打开你电脑上的默认邮箱客户端，发送到 wangty69@mail2.sysu.edu.cn<br>（因为没有后台服务器，暂时只能这样，见谅 🙏）</p>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer reveal">
+  <span class="footer-text">© 2026 泊节的庇护所</span>
+  <p class="footer-quote">"淡泊节欲，然后去晒太阳。"</p>
+</footer>
+
+<script>
+// Scroll reveal using Intersection Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Don't unobserve, so it stays visible
+    }
+  });
+}, {
+  threshold: 0.12,
+  rootMargin: '0px 0px -30px 0px'
+});
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Also trigger immediately for elements already in view on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.reveal').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add('visible');
+    }
+  });
+});
+</script>
 
 </body>
 </html>
